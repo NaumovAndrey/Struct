@@ -58,16 +58,32 @@ void createEmployee(const std::string& name,
 /*Прочитать из файла все записи (строки)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
-	std::ifstream file("saveStatement.bin", std::ios::binary);
+	std::ifstream file("statement.bin", std::ios::binary);
 	if (file.is_open())
 	{
-		employee emp;
-		while (file.read(reinterpret_cast<char*>(&emp), sizeof(emp)))
+		while (file.eof())
 		{
+			employee emp;
+			int lenName;
+
+			file.read((char*)&lenName, sizeof(lenName));
+			emp.name.resize(lenName);
+			file.read((char*)emp.name.c_str(), lenName);
+
+			int lenSurname;
+			file.read((char*)&lenSurname, sizeof(lenSurname));
+			emp.surname.resize(lenSurname);
+
+			int lenData;
+			file.read((char*)&lenData, sizeof(lenData));
+			emp.data.resize(lenData);
+
+			file.read((char*)&emp.salary, sizeof(emp.salary));
+
 			employees.push_back(emp);
-		}
-		file.close();
-	} else
+}
+	} 
+	else
 	{
 		std::cerr << "Ошибка при чтении из файла." << std::endl;
 	}
