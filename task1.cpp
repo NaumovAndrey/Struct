@@ -39,17 +39,34 @@ void createEmployee(const std::string& name,
 /*Прочитать из файла все записи (строки)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
-	//todo прочитать файл saveStatement.bin  и записать в вектор все строки
+	std::ifstream file("saveStatement.bin", std::ios::binary);
+	if (file.is_open())
+	{
+		employee emp;
+		while (file.read(reinterpret_cast<char*>(&emp), sizeof(emp)))
+		{
+			employees.push_back(emp);
+		}
+		file.close();
+	}
 }
 
 /*Вывести в консоль все строки из вектора*/
-void viewConsoleEmployee(std::vector<employee>& employees)
+void viewConsoleEmployee(const std::vector<employee>& employees)
 {
-	//todo из вектора выести всех сотрудников на экран консоли
+	for (const auto& emp : employees)
+	{
+		std::cout << "Имя: " << emp.name << ", Фамилия: " << emp.surname << ", Дата оплаты: " << emp.data << ", Получил: " << emp.salary << " рублей" << std::endl;
+	}
 }
 
 void payrollStatement(){
+	std::cout << "start" << std::endl;
 	std::vector<employee> employees;
-	createEmployee();
-	viewConsoleEmployee();
+	//createEmployee("Андрей", "Наумов", "27.02.2024", 120000);
+	//createEmployee("Алёна", "Наумова", "27.02.2024", 80000);
+
+	readFileEmployee(employees);
+	viewConsoleEmployee(employees);	 // todo не выводит в консоль
+	std::cout << "stop" << std::endl;
 }

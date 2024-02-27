@@ -2,6 +2,8 @@
 #include <iostream>
 
 void game();
+void payrollStatement();
+
 
 int main()
 {
@@ -9,5 +11,5 @@ int main()
     //game();
 
     //Ведомость учёта
-
+    payrollStatement();
 }
