@@ -13,11 +13,30 @@ struct employee
 	int salary;
 };
 
+/*
+	file.write((char*)&person.health, sizeof(person.health));  //передали указатели на поля преводя их к чар и длина соответствующего элемента в байтах
+	
+} */
+
 /*Запись в файл*/
-void saveFileEmployee(employee emp)
+void saveFileEmployee(employee& emp)
 {
 	std::ofstream file("statement.bin", std::ios::binary | std::ios::app);
-	file.write(reinterpret_cast<char*>(&emp), sizeof(emp));
+	//file.write(reinterpret_cast<char*>(&emp), sizeof(emp));
+
+	int lenName = emp.name.length();
+	file.write((char*)&lenName, sizeof(lenName));
+	file.write(emp.name.c_str(), lenName);
+
+	int lenSurname = emp.surname.length();
+	file.write((char*)&lenSurname, sizeof(lenSurname));
+	file.write(emp.surname.c_str(), lenSurname);
+
+	int lenData = emp.data.length();
+	file.write((char*)&emp.data, sizeof(lenData));
+	file.write(emp.data.c_str(), lenData);
+
+	file.write((char*)&emp.salary, sizeof(emp.salary));
 }
 
 /*Создание записи сотрудника*/
@@ -39,7 +58,7 @@ void createEmployee(const std::string& name,
 /*Прочитать из файла все записи (строки)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
-	std::ifstream file("statement.bin", std::ios::binary);
+	std::ifstream file("saveStatement.bin", std::ios::binary);
 	if (file.is_open())
 	{
 		employee emp;
@@ -48,10 +67,9 @@ void readFileEmployee(std::vector<employee>& employees)
 			employees.push_back(emp);
 		}
 		file.close();
-	}
-	else
+	} else
 	{
-		std::cerr << "Ошибка при чтении из файла";
+		std::cerr << "Ошибка при чтении из файла." << std::endl;
 	}
 }
 
@@ -68,10 +86,10 @@ void viewConsoleEmployee(const std::vector<employee>& employees)
 void payrollStatement(){
 	std::cout << "start" << std::endl;
 	std::vector<employee> employees;
-	//createEmployee("Андрей", "Наумов", "27.02.2024", 120000);
-	//createEmployee("Алёна", "Наумова", "27.02.2024", 80000);
+	createEmployee("Андрей", "Наумов", "27.02.2024", 120000);
+	createEmployee("Алёна", "Наумова", "27.02.2024", 80000);
 
-	readFileEmployee(employees);
-	viewConsoleEmployee(employees);	 // todo не выводит в консоль
+	readFileEmployee(employees);   // todo не читает
+	viewConsoleEmployee(employees);	 // 
 	std::cout << "stop" << std::endl;
 }
