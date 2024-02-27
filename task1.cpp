@@ -39,7 +39,7 @@ void createEmployee(const std::string& name,
 /*Прочитать из файла все записи (строки)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
-	std::ifstream file("saveStatement.bin", std::ios::binary);
+	std::ifstream file("statement.bin", std::ios::binary);
 	if (file.is_open())
 	{
 		employee emp;
@@ -49,11 +49,16 @@ void readFileEmployee(std::vector<employee>& employees)
 		}
 		file.close();
 	}
+	else
+	{
+		std::cerr << "Ошибка при чтении из файла";
+	}
 }
 
 /*Вывести в консоль все строки из вектора*/
 void viewConsoleEmployee(const std::vector<employee>& employees)
 {
+	std::cout << "Number of employees: " << employees.size() << std::endl;
 	for (const auto& emp : employees)
 	{
 		std::cout << "Имя: " << emp.name << ", Фамилия: " << emp.surname << ", Дата оплаты: " << emp.data << ", Получил: " << emp.salary << " рублей" << std::endl;
