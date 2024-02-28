@@ -33,10 +33,12 @@ void saveFileEmployee(employee& emp)
 	file.write(emp.surname.c_str(), lenSurname);
 
 	int lenData = emp.data.length();
-	file.write((char*)&emp.data, sizeof(lenData));
+	file.write((char*)&lenData, sizeof(lenData));
 	file.write(emp.data.c_str(), lenData);
 
 	file.write((char*)&emp.salary, sizeof(emp.salary));
+
+	
 }
 
 /*Создание записи сотрудника*/
@@ -61,7 +63,7 @@ void readFileEmployee(std::vector<employee>& employees)
 	std::ifstream file("statement.bin", std::ios::binary);
 	if (file.is_open())
 	{
-		while (file.eof())
+		while (!file.eof())
 		{
 			employee emp;
 			int lenName;
@@ -73,20 +75,23 @@ void readFileEmployee(std::vector<employee>& employees)
 			int lenSurname;
 			file.read((char*)&lenSurname, sizeof(lenSurname));
 			emp.surname.resize(lenSurname);
+			file.read((char*)emp.surname.c_str(), lenSurname);
 
 			int lenData;
 			file.read((char*)&lenData, sizeof(lenData));
 			emp.data.resize(lenData);
+			file.read((char*)emp.data.c_str(), lenData);
 
 			file.read((char*)&emp.salary, sizeof(emp.salary));
 
 			employees.push_back(emp);
-}
+		}
 	} 
 	else
 	{
 		std::cerr << "Ошибка при чтении из файла." << std::endl;
 	}
+	file.close();
 }
 
 /*Вывести в консоль все строки из вектора*/
@@ -102,10 +107,11 @@ void viewConsoleEmployee(const std::vector<employee>& employees)
 void payrollStatement(){
 	std::cout << "start" << std::endl;
 	std::vector<employee> employees;
-	createEmployee("Андрей", "Наумов", "27.02.2024", 120000);
-	createEmployee("Алёна", "Наумова", "27.02.2024", 80000);
+	createEmployee("Андрей", "Наумов", "27.02.2024", 1270000);
+	createEmployee("Алёна", "Наумова", "27.02.2024", 3700);		   //почему последнюю запись дублирует только salary, остальнве поля пустые
+	
 
-	readFileEmployee(employees);   // todo не читает
-	viewConsoleEmployee(employees);	 // 
+	readFileEmployee(employees);   
+	viewConsoleEmployee(employees);	 
 	std::cout << "stop" << std::endl;
 }
