@@ -1,4 +1,4 @@
-//Ведомость учёта
+п»ї//Р’РµРґРѕРјРѕСЃС‚СЊ СѓС‡С‘С‚Р°
 
 #include "iostream"
 #include <vector>
@@ -14,11 +14,11 @@ struct employee
 };
 
 /*
-	file.write((char*)&person.health, sizeof(person.health));  //передали указатели на поля преводя их к чар и длина соответствующего элемента в байтах
+	file.write((char*)&person.health, sizeof(person.health));  //РїРµСЂРµРґР°Р»Рё СѓРєР°Р·Р°С‚РµР»Рё РЅР° РїРѕР»СЏ РїСЂРµРІРѕРґСЏ РёС… Рє С‡Р°СЂ Рё РґР»РёРЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ Р±Р°Р№С‚Р°С…
 	
 } */
 
-/*Запись в файл*/
+/*Р—Р°РїРёСЃСЊ РІ С„Р°Р№Р»*/
 void saveFileEmployee(employee& emp)
 {
 	std::ofstream file("statement.bin", std::ios::binary | std::ios::app);
@@ -41,7 +41,7 @@ void saveFileEmployee(employee& emp)
 	
 }
 
-/*Создание записи сотрудника*/
+/*РЎРѕР·РґР°РЅРёРµ Р·Р°РїРёСЃРё СЃРѕС‚СЂСѓРґРЅРёРєР°*/
 void createEmployee(const std::string& name,
 					const std::string& surname,
 					const std::string& data,
@@ -57,7 +57,7 @@ void createEmployee(const std::string& name,
 	saveFileEmployee(emp);
 }
 
-/*Прочитать из файла все записи (строки)*/
+/*РџСЂРѕС‡РёС‚Р°С‚СЊ РёР· С„Р°Р№Р»Р° РІСЃРµ Р·Р°РїРёСЃРё (СЃС‚СЂРѕРєРё)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
 	std::ifstream file("statement.bin", std::ios::binary);
@@ -89,26 +89,26 @@ void readFileEmployee(std::vector<employee>& employees)
 	} 
 	else
 	{
-		std::cerr << "Ошибка при чтении из файла." << std::endl;
+		std::cerr << "РћС€РёР±РєР° РїСЂРё С‡С‚РµРЅРёРё РёР· С„Р°Р№Р»Р°." << std::endl;
 	}
 	file.close();
 }
 
-/*Вывести в консоль все строки из вектора*/
+/*Р’С‹РІРµСЃС‚Рё РІ РєРѕРЅСЃРѕР»СЊ РІСЃРµ СЃС‚СЂРѕРєРё РёР· РІРµРєС‚РѕСЂР°*/
 void viewConsoleEmployee(const std::vector<employee>& employees)
 {
 	std::cout << "Number of employees: " << employees.size() << std::endl;
 	for (const auto& emp : employees)
 	{
-		std::cout << "Имя: " << emp.name << ", Фамилия: " << emp.surname << ", Дата оплаты: " << emp.data << ", Получил: " << emp.salary << " рублей" << std::endl;
+		std::cout << "РРјСЏ: " << emp.name << ", Р¤Р°РјРёР»РёСЏ: " << emp.surname << ", Р”Р°С‚Р° РѕРїР»Р°С‚С‹: " << emp.data << ", РџРѕР»СѓС‡РёР»: " << emp.salary << " СЂСѓР±Р»РµР№" << std::endl;
 	}
 }
 
 void payrollStatement(){
 	std::cout << "start" << std::endl;
 	std::vector<employee> employees;
-	createEmployee("Андрей", "Наумов", "27.02.2024", 1270000);
-	createEmployee("Алёна", "Наумова", "27.02.2024", 3700);		   //почему последнюю запись дублирует только salary, остальнве поля пустые
+	createEmployee("РђРЅРґСЂРµР№", "РќР°СѓРјРѕРІ", "27.02.2024", 1270000);
+	createEmployee("РђР»С‘РЅР°", "РќР°СѓРјРѕРІР°", "27.02.2024", 3700);		   //РїРѕС‡РµРјСѓ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїРёСЃСЊ РґСѓР±Р»РёСЂСѓРµС‚ С‚РѕР»СЊРєРѕ salary, РѕСЃС‚Р°Р»СЊРЅРІРµ РїРѕР»СЏ РїСѓСЃС‚С‹Рµ
 	
 
 	readFileEmployee(employees);   
