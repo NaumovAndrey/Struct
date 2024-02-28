@@ -1,4 +1,4 @@
-//Г‚ГҐГ¤Г®Г¬Г®Г±ГІГј ГіГ·ВёГІГ 
+//Ведомость учёта
 
 #include "iostream"
 #include <vector>
@@ -14,11 +14,11 @@ struct employee
 };
 
 /*
-	file.write((char*)&person.health, sizeof(person.health));  //ГЇГҐГ°ГҐГ¤Г Г«ГЁ ГіГЄГ Г§Г ГІГҐГ«ГЁ Г­Г  ГЇГ®Г«Гї ГЇГ°ГҐГўГ®Г¤Гї ГЁГµ ГЄ Г·Г Г° ГЁ Г¤Г«ГЁГ­Г  Г±Г®Г®ГІГўГҐГІГ±ГІГўГіГѕГ№ГҐГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Гў ГЎГ Г©ГІГ Гµ
+	file.write((char*)&person.health, sizeof(person.health));  //передали указатели на поля преводя их к чар и длина соответствующего элемента в байтах
 	
 } */
 
-/*Г‡Г ГЇГЁГ±Гј Гў ГґГ Г©Г«*/
+/*Запись в файл*/
 void saveFileEmployee(employee& emp)
 {
 	std::ofstream file("statement.bin", std::ios::binary | std::ios::app);
@@ -39,7 +39,7 @@ void saveFileEmployee(employee& emp)
 	file.write((char*)&emp.salary, sizeof(emp.salary));
 }
 
-/*Г‘Г®Г§Г¤Г Г­ГЁГҐ Г§Г ГЇГЁГ±ГЁ Г±Г®ГІГ°ГіГ¤Г­ГЁГЄГ */
+/*Создание записи сотрудника*/
 void createEmployee(const std::string& name,
 					const std::string& surname,
 					const std::string& data,
@@ -55,13 +55,13 @@ void createEmployee(const std::string& name,
 	saveFileEmployee(emp);
 }
 
-/*ГЏГ°Г®Г·ГЁГІГ ГІГј ГЁГ§ ГґГ Г©Г«Г  ГўГ±ГҐ Г§Г ГЇГЁГ±ГЁ (Г±ГІГ°Г®ГЄГЁ)*/
+/*Прочитать из файла все записи (строки)*/
 void readFileEmployee(std::vector<employee>& employees)
 {
 	std::ifstream file("statement.bin", std::ios::binary);
 	if (file.is_open())
 	{
-		while (file.good())
+		while (file.eof())
 		{
 			employee emp;
 			int lenName;
@@ -81,32 +81,31 @@ void readFileEmployee(std::vector<employee>& employees)
 			file.read((char*)&emp.salary, sizeof(emp.salary));
 
 			employees.push_back(emp);
-file.close();
 }
 	} 
 	else
 	{
-		std::cerr << "ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г·ГІГҐГ­ГЁГЁ ГЁГ§ ГґГ Г©Г«Г ." << std::endl;
+		std::cerr << "Ошибка при чтении из файла." << std::endl;
 	}
 }
 
-/*Г‚Г»ГўГҐГ±ГІГЁ Гў ГЄГ®Г­Г±Г®Г«Гј ГўГ±ГҐ Г±ГІГ°Г®ГЄГЁ ГЁГ§ ГўГҐГЄГІГ®Г°Г */
+/*Вывести в консоль все строки из вектора*/
 void viewConsoleEmployee(const std::vector<employee>& employees)
 {
 	std::cout << "Number of employees: " << employees.size() << std::endl;
 	for (const auto& emp : employees)
 	{
-		std::cout << "Г€Г¬Гї: " << emp.name << ", Г”Г Г¬ГЁГ«ГЁГї: " << emp.surname << ", Г„Г ГІГ  Г®ГЇГ«Г ГІГ»: " << emp.data << ", ГЏГ®Г«ГіГ·ГЁГ«: " << emp.salary << " Г°ГіГЎГ«ГҐГ©" << std::endl;
+		std::cout << "Имя: " << emp.name << ", Фамилия: " << emp.surname << ", Дата оплаты: " << emp.data << ", Получил: " << emp.salary << " рублей" << std::endl;
 	}
 }
 
 void payrollStatement(){
 	std::cout << "start" << std::endl;
 	std::vector<employee> employees;
-	createEmployee("ГЂГ­Г¤Г°ГҐГ©", "ГЌГ ГіГ¬Г®Гў", "27.02.2024", 120000);
-	createEmployee("ГЂГ«ВёГ­Г ", "ГЌГ ГіГ¬Г®ГўГ ", "27.02.2024", 80000);
+	createEmployee("Андрей", "Наумов", "27.02.2024", 120000);
+	createEmployee("Алёна", "Наумова", "27.02.2024", 80000);
 
-	readFileEmployee(employees);   // todo Г­ГҐ Г·ГЁГІГ ГҐГІ
+	readFileEmployee(employees);   // todo не читает
 	viewConsoleEmployee(employees);	 // 
 	std::cout << "stop" << std::endl;
 }
