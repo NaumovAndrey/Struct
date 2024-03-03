@@ -1,6 +1,7 @@
 ﻿//Модель данных для посёлка
 
 #include <vector>
+#include <iostream>
 
 enum class RoomType //тип комнаты
 {
@@ -61,7 +62,7 @@ struct Village //посёлок
     std::vector<Plot> plots;
 };
 
-int task2()
+void task2()
 {
     Village village;
 
@@ -91,4 +92,9 @@ int task2()
     plot1.landArea = 500.0;
 
     village.plots.push_back(plot1); // Добавляем участок в посёлок
+
+    for (const auto& plot : village.plots)
+    {
+        std::cout << "Номер: " << plot.number << " Площадь: " << plot.bathhouse.area << std::endl;
+    }
 }

@@ -3,6 +3,7 @@
 
 void game();
 void payrollStatement();
+void task2();
 
 
 int main()
@@ -12,5 +13,7 @@ int main()
     //game();
 
     //Ведомость учёта
-    payrollStatement();
+    //payrollStatement();
+
+    task2();
 }
