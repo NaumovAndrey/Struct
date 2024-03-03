@@ -38,7 +38,7 @@ void saveFileEmployee(employee& emp)
 
 	file.write((char*)&emp.salary, sizeof(emp.salary));
 
-	
+	//todo почему записывает в файл пустую строку с последним значением salary?
 }
 
 /*Создание записи сотрудника*/
