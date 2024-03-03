@@ -95,6 +95,9 @@ void task2()
 
     for (const auto& plot : village.plots)
     {
-        std::cout << "Номер: " << plot.number << " Площадь: " << plot.bathhouse.area << std::endl;
+        std::cout << "Номер участка: " << plot.number << std::endl;
+        std::cout << "Площадь дома: " << plot.house.area << std::endl;
+        std::cout << "Количество этажей дома: " << plot.house.floorCount << std::endl;
+        std::cout << "Наличие камина в доме: " << (plot.house.hasFireplace ? "Да" : "Нет") << std::endl;
     }
 }
